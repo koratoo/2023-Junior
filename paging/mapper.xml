@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mapper DTD 선언 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="org.innobl.mapper.MemberMapper">
+  
+  <select id="getListWithPaging" resultType="org.innobl.domain.MemberVO">
+  	<![CDATA[
+  		select 
+  			mno,name,juminNo,gender,skillLevel,emplYear
+  		from
+  			(
+  			select /*+INDEX_DESC(member mno) */
+  			 rownum rn, mno, name, juminNo,gender,skillLevel,emplYear
+  			from
+  			 member
+  			where rownum<=#{pageNum} * #{amount}
+  			)
+  			where rn>(#{pageNum} -1) * #{amount}
+  	]]>
+  
+  </select>
+  </mapper>
