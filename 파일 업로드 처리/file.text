@@ -1,0 +1,32 @@
+컨트롤러에서
+@PostMapping("/enroll_member")
+	public String enrollMemberWithImageFile(@ModelAttribute MemberVO member,Model model,MultipartFile[] uploadFile) {
+		
+		String uploadFolder = "C:\\Users\\-\\Desktop\\innoblife\\innobl\\src\\main\\webapp\\resources\\img";		
+		for(MultipartFile multipartFile : uploadFile) {
+		    String originalFileName = multipartFile.getOriginalFilename();
+		    File saveFile = new File(uploadFolder, originalFileName);
+		    try {
+		        multipartFile.transferTo(saveFile);
+		        String filePath = uploadFolder + "\\" + originalFileName;
+		        member.setProfileImg(filePath); 
+		    } catch (Exception e) {
+		        log.error(e.getMessage());
+		    }
+		}
+	    service.enroll(member);
+	   
+	    return "redirect:/enroll_success";
+	}
+
+
+
+저장할때
+ <div class="profile-image">
+				<img src="/resources/img/poppy.jpg">
+				<input type='file' name="uploadFile" multiple>
+			</div>
+
+불러올때
+ <img src="${member.getProfileImg().substring(member.getProfileImg().indexOf("resources"))}" alt="프로필 이미지">
+			
