@@ -1,0 +1,65 @@
+<form id='searchForm' action="/current_member" method="post">
+				<button disabled>기술등급</button>
+				<input type="hidden" name="type" value="S">
+				<select name="skillLevel" id="search_member">
+					<option value="초급">초급</option>
+					<option value="중급">중급</option>
+					<option value="고급">고급</option>
+					<option value="특급">특급</option>
+				</select>
+				
+			
+				<button disabled>성별</button>
+				<select name="gender" id="search_member">
+					<option value="남자">남자</option>
+					<option value="여자">여자</option>
+				</select>
+			
+				<button disabled>이름</button>
+				<input type="text" name="name" id="search_member"/>
+				<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}" />
+	            <input type="hidden" name="amount" value="${pageMaker.cri.amount}" />
+	            <button class="btn btn-default">검색</button>
+			</form>
+==================================================================================================
+	@PostMapping("/current_member")
+	public void postCurrentMembers( @RequestParam(value = "skillLevel", required = false) String skillLevel,
+	                              @RequestParam(value = "gender", required = false) String gender,
+	                              @RequestParam(value = "name", required = false) String name,
+	                              Model model) {
+	    log.info("skillLevel : "+skillLevel);
+	    log.info("gender : "+gender);
+	    log.info("name : "+name);
+	   
+	    
+	    model.addAttribute("list", service.searchWithTypes(skillLevel,gender,name));
+	   // model.addAttribute("pageMaker", new PageDTO(cri, 123));
+	}
+
+
+==================================================================================================
+ List<MemberVO> searchWithTypes(@Param("skillLevel") String skillLevel,
+             @Param("gender") String gender,
+             @Param("name") String name);
+==================================================================================================
+	public List<MemberVO> searchWithTypes(String skillLevel, String gender, String name);
+==================================================================================================
+@Override
+	public List<MemberVO> searchWithTypes(String skillLevel, String gender, String name) {
+		return mapper.searchWithTypes(skillLevel, gender, name);
+	}
+==================================================================================================
+<select id="searchWithTypes" resultType="org.innobl.domain.MemberVO">
+    SELECT 
+      mno, name, juminNo, gender, skillLevel, emplYear
+    FROM
+    <![CDATA[	
+     member
+     	where skillLevel = #{skillLevel} and
+     		  gender = #{gender} and
+     		  name like '%' || #{name} || '%' 
+     	order by mno desc
+     ]]>
+</select>
+
+==================================================================================================
