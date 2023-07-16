@@ -1,0 +1,35 @@
+<select id="searchWithTypes" resultType="org.innobl.domain.MemberVO">
+	    <![CDATA[
+	    SELECT 
+	      mno, 
+	      name, 
+	      juminNo, 
+	      gender, 
+	      skillLevel, 
+	      emplYear,
+	      TO_CHAR(joinDate, 'YYYY-MM-DD') AS joinDate,
+	      TO_CHAR(exitDate, 'YYYY-MM-DD') AS exitDate
+	    FROM (
+	      SELECT /*+INDEX_DESC(member mno) */
+	        rownum rn, 
+	        mno, 
+	        name, 
+	        juminNo, 
+	        gender, 
+	        skillLevel, 
+	        emplYear,
+	        joinDate,
+	        exitDate
+	      FROM member
+	      WHERE
+	        skillLevel = #{skillLevel} AND
+	        gender = #{gender} AND
+	        name LIKE '%' || #{name} || '%'
+	      ORDER BY mno DESC
+	    )
+	    WHERE rn > (#{pageNum} - 1) * #{amount}
+	    AND rownum <= #{pageNum} * #{amount}
+	    AND joinDate >= TO_DATE(#{from}, 'yyyy-MM-dd')
+        AND joinDate <= TO_DATE(#{to}, 'yyyy-MM-dd')
+	    ]]>
+	</select>
