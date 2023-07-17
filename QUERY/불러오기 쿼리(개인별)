@@ -1,0 +1,32 @@
+ <select id="getMemberByMno" resultType="org.innobl.domain.MemberVO">
+     	select
+     		mno, 
+            name, 
+            juminNo, 
+	        cd6.dtlcodenm as gender,
+            profileImg, 
+            engName, 
+            chnName,
+            birthday, 
+            cd1.dtlcodenm as marriage, 
+            emplYear, 
+            cd2.dtlcodenm as payType, 
+            cd3.dtlcodenm as emplType, 
+            cd4.dtlcodenm as wishPos,
+            addr, 
+            phone, 
+            email, 
+  			cd5.dtlcodenm as skilllevel, 
+            joinDate,
+            exitDate, 
+            alchol
+        from 
+        	member mb
+        	 left outer join dcodedtl cd1 on (cd1.dcode='M001' and mb.marriage = cd1.dtlcode)
+        	 left outer join dcodedtl cd2 on (cd2.dcode='M002' and mb.payType = cd2.dtlcode)
+        	 left outer join dcodedtl cd3 on (cd3.dcode='M003' and mb.emplType = cd3.dtlcode)
+        	 left outer join dcodedtl cd4 on (cd4.dcode='M004' and mb.wishPos = cd4.dtlcode)
+  			 left outer join dcodedtl cd5 on (cd5.dcode='M005' and mb.skilllevel = cd5.dtlcode)
+  			 left outer join dcodedtl cd6 on (cd6.dcode='M006' and mb.gender = cd6.dtlcode)
+  			where mno = #{mno}
+    </select>
