@@ -1,70 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <style>
-
 	@font-face {
 	    font-family: 'HANAMDAUM';
 	    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/HANAMDAUM.woff2') format('woff2');
 	    font-weight: 400;
 	    font-style: normal;
 	}
-	body {
-	  height: 800px;
-	  margin: 10px;
-	  padding: 0;
-	  
-	}
-	.container {
+	 .member_container {
 	  display: flex;
 	  height: 100%; 
-	}
-	a {
+	} 
+	.left-sidemenu>ul>li>a {
 	  text-decoration-line: none;
-	  color:black;
-	  width:100%;
+	  color: black;
 	}
 	.left-sidemenu {
 	  font-family: 'HANAMDAUM';
 	  width: 20%;
-	  height: 100%; 
+	  height:1080px;
 	  background-color: #f1f1f1;
-	  font-size: 20px;
+	  font-size: 30px;
 	}
-	ul{
-	   list-style:none;
-	 }
-	 li{
-	 	padding : 10px;
-	 	
-	 }
-	 
-	 img{
-	 	width:100%
-	 }
-	 a:hover ,li:hover{
-	 	cursor:pointer;
-	 	background-color: gray;
-	 	color:white;
-	 }
-	 li:hover a {
-	  color: white; /* hover 시 링크 색상 */
+	.left-sidemenu>ul{
+	   list-style: none;
+	}
+	.left-sidemenu>ul>li{
+	 	padding: 10px;
+	} 
+	.left-sidemenu>img{
+	 	width: 100%;
+	}
+	.left-sidemenu>ul>li:hover,
+	.left-sidemenu>ul>li:hover a {
+		cursor: pointer;
+		background-color: gray;
+		color: white;
 	}
 </style>
-</head>
 <body>
 	<div class="left-sidemenu">
-		<img src="../img/logo.jpg" />
+		<img src="/resources/img/logo.jpg" />
 		<ul>
-			<li>■ 기본정보</li>
-			<li><a href="current_member.jsp">■ 직원명부</a></li>
-			<li><a href="quit_member.jsp">■ 퇴직자현황</a></li>
-			<li>■ 예비인력정보</li>
+			<li><a href="/member/enroll_member"> ■ 사원등록</a></li>
+			<li><a href="/member/current_member">■ 사원목록</a></li>
+			<li><a href="/project/project_list">■ 프로젝트 목록</a></li>
+			<li><a href="/pm/pm_list">■ 프로젝트 투입현황</a>
+			<!-- <li><a href="/exit/exit_member">■ 퇴직자현황</a></li> -->
+			<!-- <li>■ 예비인력정보</li> -->
 			
-			<li>■ 거래처 정보</li>
-			<li>진행 프로젝트 현황</li>
-			<li>■ 경력 검색</li>
+			<li><a href="/vendor/vendor_list">■ 거래처 목록</a></li> 
+			<li><a href="/code/code_list">■ 코드마스터 목록</a></li> 
+			<!-- <li>■ 경력 검색</li> -->
 		</ul>
 	</div>
 </body>
