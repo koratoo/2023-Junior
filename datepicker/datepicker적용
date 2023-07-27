@@ -1,0 +1,19 @@
+<form id='searchForm' action="/member/current_member" method="post" onsubmit="return validateDates()">
+			  <button disabled>입사일</button>
+				  <input type="text" id="start-date" name="from"  maxlength="8" autocomplete="off" required>
+				  <span>  ~  </span>
+				  <input type="text" id="end-date" name="to" maxlength="8"  autocomplete="off" required>
+			<script>
+			 $("#start-date").datepicker({  dateFormat: 'yymmdd'});
+			 $("#end-date").datepicker({  dateFormat: 'yymmdd'});
+			 $(document).ready(function() {
+			      const today = new Date();
+			      const shortYear = String(today.getFullYear()); // 연도의 마지막 두 자리만 필요합니다
+			      const mm = String(today.getMonth() + 1).padStart(2, '0');
+			      const dd = String(today.getDate()).padStart(2, '0');
+			      const currentDate = shortYear+ mm + dd;
+
+			      $("#start-date").attr("placeholder", currentDate);
+			      $("#end-date").attr("placeholder", currentDate);
+			    });
+			</script>
