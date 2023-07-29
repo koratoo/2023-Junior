@@ -1,0 +1,57 @@
+@PostMapping("/w_enroll_member")
+   public String postWindowEnrollMemberIntoProjectPage(
+		   @RequestParam("prjno") int prjno,
+		   @RequestParam("mno[]") List<Integer> mnoList, 
+		   @RequestParam("prjmng_st[]") List<String> prjmngStList, 
+		   @RequestParam("prjmng_end[]") List<String> prjmngEndList, 
+		   @RequestParam("prjmng_role[]") List<String> prjmngRoleList,
+		   RedirectAttributes redirectAttributes) {
+	   
+	   try {
+	   	for(int i=0;i<mnoList.size();i++) {
+	   		log.info(prjno);
+	   		log.info(mnoList.get(i));
+	   		log.info(prjmngStList.get(i));
+	   		
+	   		PMVO vo = new PMVO();
+	   		vo.setPrjno(prjno);
+	   		vo.setMno(mnoList.get(i));
+	   		vo.setPrjmng_end(prjmngEndList.get(i));
+	   		vo.setPrjmng_st(prjmngStList.get(i));
+	   		vo.setPrjmng_role(prjmngRoleList.get(i));
+	   		pmservice.enrollPMMembers(vo);
+	   		return "redirect:/member/enroll_success";
+	   	}
+	   }catch(DuplicateKeyException ex) {
+	        redirectAttributes.addFlashAttribute("error_message", "입력하신 데이터 중, 중복되는 항목이 있습니다. 확인 후 다시 시도해주세요.");
+	        return "redirect:/exception/duplicate_key"; 
+	    }
+	   	
+	   return "";
+   }
+
+
+@Controller
+@RequestMapping("/exception")
+public class ExceptionController {
+
+	@GetMapping("/duplicate_key")
+	public String showDuplicateErrorPage() {
+		
+		return "/exception/duplicate_key";
+	}
+}
+
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>에러 발생 - 중복 데이터</title>
+</head>
+<body>
+    <h1>이미 배치된 회원입니다.</h1>
+    <p>${error_message}</p>
+</body>
+</html>
