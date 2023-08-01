@@ -14,9 +14,10 @@
 <script>
 function selectMember(name, mno) {
     if (window.opener && !window.opener.closed) {
-        var inputField = window.opener.document.querySelector("input[name='mno']");
-        inputField.value = name;
-        inputFiled.name = mno;
+        var memberNameField = window.opener.document.querySelector("#memberName");
+        var mnoField = window.opener.document.querySelector("#mno");
+        memberNameField.value = name;
+        mnoField.value = mno;
     }
     window.close();
 }
