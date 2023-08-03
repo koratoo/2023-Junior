@@ -1,0 +1,32 @@
+// 제거 버튼 클릭 시 해당 행을 제거하는 이벤트 리스너
+        $('button.remove-btn').on('click', function () {
+          // 삭제할 행 및 mno 값 찾기
+          const row = $(this).closest("tr"); // Use closest() instead of parent().parent()
+          const mnoInput = row.find("input[name='mno[]']");
+
+          // selectedItems에서 해당 mno 제거
+          const currentURL = window.location.href;
+          const urlParts = currentURL.split("?");
+          const queryParams = urlParts[1].split("&");
+          const updatedParams = queryParams.map(param => {
+            if (param.startsWith("selectedItems")) {
+              const selectedItems = param.split("=")[1].split(",").filter(item => item !== mnoInput.val()).join(",");
+              return "selectedItems=" + selectedItems;
+            } else {
+              return param;
+            }
+          });
+          // URL 업데이트
+          const updatedURL = urlParts[0] + "?" + updatedParams.join("&");
+          window.history.replaceState(null, null, updatedURL);
+
+          // mno input 및 행 삭제
+          mnoInput.remove();
+          row.remove();
+          
+        
+       	  const prjNo = $('select[name="prjno"]').val();
+       	  console.log(prjNo);
+       	  updateProjectDetails(prjNo);
+       	  updateProjectMembers(prjNo);
+        });
