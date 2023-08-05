@@ -1,0 +1,29 @@
+ $("form").on("submit", function(event) {
+        	const prjNo = $('select[name="prjno"]').val()
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.ajax({
+                type: "POST",
+                url: "/member/w_enroll_member", 
+                data: formData,
+                success: function(response) {
+                    alert("인원이 배정되었습니다.^^");
+                    window.close(); 
+                },
+                error: function(response) {
+                	if (response.status === 409) {
+                        alert("등록된 회원이 존재합니다");
+                    }
+                	if (response.status === 400 && prjNo == '') {
+                        alert("프로젝트를 선택하지 않으셨습니다.");
+                    }else if(response.status === 400){
+                        alert("투입하려는 회원이 존재하지 않습니다.");
+                		
+                	}
+                	if (response.status === 500) {
+                        alert("관리자에게 문의 부탁드립니다.");
+                    }
+                	
+                }
+            });
+        });
