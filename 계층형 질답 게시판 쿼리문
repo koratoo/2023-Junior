@@ -1,0 +1,5 @@
+SELECT qnabno, prnt_qnabno, qnalvl, title, content, writedate, mno
+FROM QNA_BOARD
+START WITH prnt_qnabno IS NULL
+CONNECT BY PRIOR qnabno = prnt_qnabno
+ORDER SIBLINGS BY writedate;
