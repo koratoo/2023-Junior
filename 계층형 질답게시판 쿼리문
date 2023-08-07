@@ -1,0 +1,35 @@
+package org.innobl.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.innobl.domain.VO.QNABoardVO;
+
+public interface QNABoardMapper {
+
+	@Select("SELECT "
+			+ "qnabno, "
+			+ "prnt_qnabno, "
+			+ "qnalvl, "
+			+ "title, "
+			+ "content, "
+			+ "writedate, "
+			+ "mno "
+			+ "FROM QNA_BOARD "
+			+ "START WITH prnt_qnabno IS NULL "
+			+ "CONNECT BY PRIOR qnabno = prnt_qnabno "
+			+ "ORDER SIBLINGS BY writedate desc")
+	public List<QNABoardVO> getQNABoard();
+	
+	
+	@Select("SELECT * FROM  QNA_BOARD WHERE qnabno = #{qnabno}")
+	public QNABoardVO getQNABoardByBno(@Param("qnabno") int qnabno);
+	
+	
+	@Insert("Insert into "
+			+ "QNA_BOARD(qnabno,prnt_qnabno,qnalvl,title,content,writedate,mno) "
+			+ "values(board_seq.nextval,#{prnt_qnabno},#{qnalvl},#{title},#{content},#{writedate},#{mno})")
+	public void insertBoardReply(QNABoardVO vo);
+}
