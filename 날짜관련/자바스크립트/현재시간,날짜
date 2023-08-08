@@ -1,0 +1,13 @@
+<script>
+	function setCurrentDate() {
+	
+	  let today = new Date();
+	  document.getElementById("writedate").value = today.toLocaleString();
+	}
+
+	document.addEventListener("DOMContentLoaded", setCurrentDate);
+</script>
+
+
+
+출력 : 2023. 8. 8. 오후 3:07:59
