@@ -1,0 +1,20 @@
+
+	@Select("SELECT "
+	        + "qb.qnabno AS qnabno, "
+	        + "qb.prnt_qnabno AS prnt_qnabno, "
+	        + "qb.qnalvl AS qnalvl, "
+	        + "qb.title AS title, "
+	        + "qb.content AS content, "
+	        + "qb.writedate AS writedate, "
+	        + "qb.mno AS mno, "
+	        + "cd.dtlcodenm AS qna_cd, "
+	        + "m.name AS name "
+	        + "FROM QNA_BOARD qb "
+	        + "JOIN member m ON qb.mno = m.mno "
+	        + "left outer join dcodedtl cd on (cd.dcode='QNA001' and qb.qna_cd = cd.dtlcode) "
+	        + "START WITH qb.qnalvl=0 "
+	        + "CONNECT BY PRIOR qb.qnabno = qb.prnt_qnabno "
+	        + "ORDER SIBLINGS BY "
+	        + "CASE WHEN qb.qnalvl = 0 THEN qb.writedate END DESC, "
+	        + "CASE WHEN qb.qnalvl > 0 THEN qb.writedate END ASC")
+	public List<QNABoardVO> getQNABoard();
