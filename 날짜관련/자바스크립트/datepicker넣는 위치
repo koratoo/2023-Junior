@@ -1,0 +1,50 @@
+-> body태그 하단/상단
+
+<script type="text/javascript" src="/resources/js/date_check_function.js"></script> 		
+
+</body>
+<script>
+				$(document).ready(function() {
+				     const today = new Date();
+				     const shortYear = String(today.getFullYear()); // 연도의 마지막 두 자리만 필요합니다
+				     const mm = String(today.getMonth() + 1).padStart(2, '0');
+				     const dd = String(today.getDate()).padStart(2, '0');
+				     const currentDate = shortYear+ mm + dd;
+				     if('${from}' == null || '${from}' == ''){
+				         
+				     $("#end-date").attr("value", currentDate);
+				     $("#start-date").attr("value", currentDate);
+				     }
+				     
+				     $("#project-form").on("submit", function(event) {
+				         if (!validateDates()||!validateLength()) {
+				             event.preventDefault();
+				         }
+				     });
+				   });
+				
+				function validateDates() {
+				    var startDate = document.getElementById("start-date").value;
+				    var endDate = document.getElementById("end-date").value;
+				    if (endDate < startDate) {
+				      alert("시작일이 종료일보다 이른 날짜일 수 없습니다. \n시작일 : "+startDate+" ~ 종료일 : "+endDate);
+				      return false;
+				    }
+				    
+				    return true;
+				  }
+				
+				 
+				   function validateLength() {
+					    var startDate = document.getElementById("start-date").value;
+					    var endDate = document.getElementById("end-date").value;
+
+					    if (startDate.length < 8 || endDate.length < 8) {
+					        alert("YYYYMMDD 의 형태로 입력해 주세요.(ex 20230723)");
+					        return false;
+					    }
+					    return true;
+					}
+				
+				</script>		
+</html>
